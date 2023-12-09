@@ -1,17 +1,16 @@
-import sys
-
-line1 = "labc2"
-line2 = "pqr3stu8vwx"
-line3 = "a1b2c3d4e5f"
-line4 = "treb7uchet"
-
-with open('input.txt') as f:
+#inputting in text file of strings
+with open('C:/Users/theha/OneDrive/Documents/GitHub/advent_of_code/day_1/input.txt') as f:
     lines = f.readlines()
-
+    
 num_list = []
 
-for i in range(len(line3)):
-    if line3[i].isnumeric() == True:
-        num_list.append(int(line3[i]))
+for string in lines:
+    line_value = []
 
-print(num_list)
+    for i in range(len(string)):
+        if string[i].isnumeric() == True:
+            line_value.append(string[i])
+    
+    num_list.append(int(line_value[0]+line_value[-1]))
+
+print(sum(num_list))
