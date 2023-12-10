@@ -12,7 +12,6 @@ input = ["Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
 "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"]
 
 #The Elf would first like to know which games would have been possible if the bag contained only 12 red cubes, 13 green cubes, and 14 blue cubes?
-
 #regex input list to separate sets, then terms per colour
 
 #total terms per set
@@ -22,22 +21,34 @@ input = ["Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
 
 set_list = []
 game_list = []
+possible_list = []
+colour_limit = {"red":12,
+                "green":13,
+                "blue":14
+}
 
 for i,line in enumerate(input):
     line = line.split(sep=";")
     #print(line)
-    for group in line:
-        match = re.findall(r"(?=(\d blue|\d red|\d green))",group)
+    game_number = re.findall(r"(\d:)",input[i]) 
+
+    print("game number:",game_number)
+    for i,group in enumerate(line):
+        print("set number",i)
+        match = re.findall(r"(?=(\d blue|\d red|\d green|\d\d blue|\d\d red|\d\d green))",group)
         set_list.append(match)
-        #print(line[0])
-        #print(match)
-        #print(group)
-    
-    match = re.findall(r"(\d:)",input[i]) 
-    game_list.append(match)
+        for i in range(len(match)):
+            compare = match[i].split(sep=" ")
+            #compare each element of set with possible limit for each colour
+            if int(compare[0]) < colour_limit[compare[1]]:
+                print(compare, "Possible")
+                possible_list.append(game_number)
+            elif int(compare[0]) > colour_limit[compare[1]] :
+                print(compare, "impossible")
+
 
     #print(match)
     #print(set_list[i])
 
-print(set_list)
-#print(game_list)
+#print(possible_list)
+#print(set_list)
