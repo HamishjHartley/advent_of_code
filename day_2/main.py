@@ -29,10 +29,14 @@ colour_limit = {"red":12,
 }
 
 #For each game
-for i,line in enumerate(input):
+for i,line in enumerate(lines):
     line = line.split(sep=";")
     #print(line)
-    game_number = re.findall(r"(\d:)",input[i])
+
+    #regex for game number
+    game_number = re.findall(r"(\d\d:|\d:)",lines[i])
+    #splitting game number string to int value
+    game_number = game_number[0].split(sep=":")[0]
      
 
     possible_sets = 0 
@@ -65,8 +69,8 @@ for i,line in enumerate(input):
     #print(n_sets+1)
 
     if possible_sets == n_sets+1:
-        possible_game.append(int(game_number[0][0]))
-        #print("Possible game", game_number[0][0])
+        possible_game.append(int(game_number))
+        #print("Possible game", game_number)
             
 print(possible_game)
 print(sum(possible_game))
