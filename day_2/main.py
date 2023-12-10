@@ -37,8 +37,7 @@ for i,line in enumerate(lines):
     game_number = re.findall(r"(\d\d:|\d:)",lines[i])
     #splitting game number string to int value
     game_number = game_number[0].split(sep=":")[0]
-     
-
+    
     possible_sets = 0 
 
     #print("game number:",game_number)
@@ -47,7 +46,6 @@ for i,line in enumerate(lines):
         poss_values = 0 #totals possible elements 
         n_sets = i #totals number of sets per game
         
-
         #print("set number",i)
         match = re.findall(r"(?=(\d blue|\d red|\d green|\d\d blue|\d\d red|\d\d green))",group)
         set_list.append(match)
@@ -57,17 +55,14 @@ for i,line in enumerate(lines):
             compare = match[i].split(sep=" ")
 
             #compare each element of set with possible limit for each colour
-            if int(compare[0]) < colour_limit[compare[1]]:
+            if int(compare[0]) <= colour_limit[compare[1]]:
                 #print(compare, "Possible")
                 poss_values+=1 
 
         #if the amount of possible values equals total values in set, set is possible
         if poss_values == len(match):
-            possible_sets= possible_sets+1
-            #print("added set")
-    #print(possible_sets)
-    #print(n_sets+1)
-
+            possible_sets+=1
+ 
     if possible_sets == n_sets+1:
         possible_game.append(int(game_number))
         #print("Possible game", game_number)
