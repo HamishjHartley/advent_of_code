@@ -1,8 +1,6 @@
 import re
-
 #inputting in text file of strings
-with open('C:/Users/theha/OneDrive/Documents/GitHub/advent_of_code/day_2/input.txt') as f:
-    lines = f.readlines()
+with open('C:/Users/theha/OneDrive/Documents/GitHub/advent_of_code/day_2/input.txt') as f: lines = f.readlines()
 
 totals_sqrd = []
 for i,line in enumerate(lines):
