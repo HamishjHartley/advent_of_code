@@ -18,6 +18,7 @@ num_dict = {"one":1,
 }    
 
 for line in lines:
+    line = line.split(sep=";")
     match = re.findall(r"(?=(one|two|three|four|five|six|seven|eight|nine|\d))", line)
 
     print(match)
