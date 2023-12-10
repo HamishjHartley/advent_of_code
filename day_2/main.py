@@ -21,34 +21,52 @@ input = ["Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
 
 set_list = []
 game_list = []
-possible_list = []
+possible_game = []
+
 colour_limit = {"red":12,
                 "green":13,
                 "blue":14
 }
 
+#For each game
 for i,line in enumerate(input):
     line = line.split(sep=";")
     #print(line)
-    game_number = re.findall(r"(\d:)",input[i]) 
+    game_number = re.findall(r"(\d:)",input[i])
+     
 
-    print("game number:",game_number)
+    possible_sets = 0 
+
+    #print("game number:",game_number)
+    #for each set in each game
     for i,group in enumerate(line):
-        print("set number",i)
+        poss_values = 0 #totals possible elements 
+        n_sets = i #totals number of sets per game
+        
+
+        #print("set number",i)
         match = re.findall(r"(?=(\d blue|\d red|\d green|\d\d blue|\d\d red|\d\d green))",group)
         set_list.append(match)
+
+        #for each element in set
         for i in range(len(match)):
             compare = match[i].split(sep=" ")
+
             #compare each element of set with possible limit for each colour
             if int(compare[0]) < colour_limit[compare[1]]:
-                print(compare, "Possible")
-                possible_list.append(game_number)
-            elif int(compare[0]) > colour_limit[compare[1]] :
-                print(compare, "impossible")
+                #print(compare, "Possible")
+                poss_values+=1 
 
+        #if the amount of possible values equals total values in set, set is possible
+        if poss_values == len(match):
+            possible_sets= possible_sets+1
+            #print("added set")
+    #print(possible_sets)
+    #print(n_sets+1)
 
-    #print(match)
-    #print(set_list[i])
-
-#print(possible_list)
-#print(set_list)
+    if possible_sets == n_sets+1:
+        possible_game.append(int(game_number[0][0]))
+        #print("Possible game", game_number[0][0])
+            
+print(possible_game)
+print(sum(possible_game))
