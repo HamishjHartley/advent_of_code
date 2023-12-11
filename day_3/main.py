@@ -1,7 +1,7 @@
 import re
 
-input1 =["467..114.",
-        "....*....",
+input1 =["467..114..",
+        "....*.....",
         "....35..63",
         "3.,......#",
         "...,617*..",
@@ -10,7 +10,7 @@ input1 =["467..114.",
         "2.....,...",
         "...755.,..",
         ".$.*....,.",
-        "664.598.."
+        "664.598..."
 ]
 
 input2= [
@@ -25,6 +25,7 @@ def search_adjecent(symbol:tuple, input_list:list):
     search_pos = []
     line_num = symbol[0]
     index = symbol[1]
+    line_length = len(input_list[0])
 
     #Dicitonary to store directions
     direction = {
@@ -36,14 +37,15 @@ def search_adjecent(symbol:tuple, input_list:list):
         "SE":(line_num+1,index+1),
         "SW":(line_num+1,index-1),
         "E":(line_num,index+1)
-
     }
+
     for directions in direction:
         search_pos.append(direction[directions])
         x =[direction[directions]][0][1]
         y =[direction[directions]][0][0]
-        print(input_list[x][y])
-        #print(input_list[direction[directions]][0][1],input_list[direction[directions]][0][1])
+        #bounds of input list
+        if x and y >= 0 and x and y <=line_length:
+            print(input_list[x][y])
     return search_pos
 
 #iterate through input list
@@ -61,7 +63,7 @@ def get_symbols(input_list:list):
     return symbols
 
 symbols = get_symbols(input1)
-search_adjecent(symbols[5],input1)
+search_adjecent(symbols[7],input1)
 
 
 #if adjecent position contains number, regex that index on that line and capture full number
