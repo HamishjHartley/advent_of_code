@@ -1,33 +1,45 @@
 import re
-input ="467..114.....*........35..633.,......#...,617*......,.....+.58.,..592.....,......755.,...$.*....,.664.598.."
 
-direction = {
-    #N
-    "n":-11,
-    #NE
-    "ne":-12,
-    #NW
-    "nw":-10,
-    #E
-    "e":1,
-    #S
-    "s":11,
-    #SE
-    "se":12,
-    #SW
-    "sw":0,
-    #W
-    "w":1
-}
+input1 =["467..114.",
+        "....*....",
+        "....35..63",
+        "3.,......#",
+        "...,617*..",
+        "....,.....",
+        "+.58.,..59",
+        "2.....,...",
+        "...755.,..",
+        ".$.*....,.",
+        "664.598.."
+]
+
+input2= [
+    "..*,.&....",
+    ".*........",
+    "..........",
+    "...*......"
+]
+
+#iterate through input list
+#return index of each symbol per line
 
 symbols, numbers = [],[]
-for i,char in enumerate(input):
-    #captures any character which is not a number or a dot
-    symbols.append(re.findall(r"[^\d.]", char))
-    numbers.append(re.findall(r"(\d)",char))
+for i,line in enumerate(input1):
+    #print(line)
+    for j,char in enumerate(line):
+        #checks if current character in line matches given set
+        char_match = re.search(r"[*,$#&%+]+", char)
+        num_match = re.search(r"[(\d+)]", char)
+        #if character natches set record line index and number in symbols list
+        if char_match != None:
+            symbols.append((i,j))
+        if num_match != None:
+            numbers.append((i,j))
 
-print(symbols)
-print(numbers)
-#print(flat_list) 
-#flat_list (next row)
-#print(flat_list[direction["w"]])
+
+#print(symbols)
+#print(numbers)
+
+for i in symbols:
+    print(input1[i])
+
