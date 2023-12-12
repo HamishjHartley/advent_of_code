@@ -62,9 +62,22 @@ def get_symbols(input_list:list):
                 symbols.append((i,j))
     return symbols
 
-symbols = get_symbols(input1)
-search_adjecent(symbols[7],input1)
+def get_numbers(input_list:list):
+    number_pos = {} #Dictionary to store each number and ther position 
 
+    for i,line in enumerate(input_list):
+        number = re.findall(r"\d+", line)
+        for numbers in number: 
+            #each number and their index in input list
+            number_index =re.search(numbers, line)
+            number_pos[(number_index.span()[0],number_index.span()[1],i)] = numbers  #Linking the numbers with their positions, and line number
+    return number_pos
+
+symbols = get_symbols(input1)
+numbers = get_numbers(input1)
+#search_adjecent(symbols[7],input1)
+
+print(numbers.get((0,3,0)))
 
 #if adjecent position contains number, regex that index on that line and capture full number
 #Save each of these numbers in a list 
