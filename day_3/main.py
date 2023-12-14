@@ -1,15 +1,11 @@
 import re
-
 #inputting in text file of strings
 input1 = open("C:/Users/theha/OneDrive/Documents/GitHub/advent_of_code/day_3/input.txt",'r').read().split('\n')
-print(input1)
 
-#Searches all adjecent positions, N, NE, NW, E, S, SE, SW, W for a given index and line in input_list
-#Returns is_valid boolean
+#Searches all adjecent positions, N, NE, NW, E, S, SE, SW, W for a given index and line in input_list, Returns is_valid boolean
 def search_adjecent(index:int, line_num:int, input_list:list):
     is_valid = False #Boolean flag 
     line_length = len(input_list[0])
-
     #Dicitonary to store directions
     direction = [
         (line_num-1,index), #North
@@ -21,50 +17,32 @@ def search_adjecent(index:int, line_num:int, input_list:list):
         (line_num+1,index+1), #South East
         (line_num+1,index-1) #South West
     ]
-
     for directions in direction:
         x = directions[0]
         y = directions[1]
-
-        #bounds of input list
-        if x and y >= 0 and x <line_length and y <line_length:
-            #print(input_list[y][x], "at", x,"," ,y)
+        if x and y >= 0 and x <line_length and y <line_length: #bounds of input list
             char_match = re.search(r"[*,$#&%+]", input_list[x][y])
-            #if adjecent character is a symbol set is_valid flag to True and break
-            if char_match != None:
+            if char_match != None:  #if adjecent character is a symbol set is_valid flag to True and break
                 is_valid = True
-                print("Character", char_match.group(),"at:", x,y)
                 break
     return is_valid
 
-#1.Search input string for numbers, for each number check if adjecent to symbol, if number is valid: append to valid_numbers[] 
-#Returns valid_numbers list
+#1.Search input string for numbers, for each number check if adjecent to symbol, if number is valid: append to valid_numbers[], Returns valid_numbers list
 def get_numbers(input_list:list):
     valid_numbers = []
-
     for i,line in enumerate(input_list):
         number = re.findall(r"\d+", line)
-        print("line number:", i)
-
         for numbers in number: 
-            print("Number: ", numbers)
             match =re.search(numbers, line)
             start = match.span()[0]
             end = match.span()[1]
             #2. For each number per line: for each character in number search adjecent, 
-            # if search adjecent == Symbol, set number_valid = True break, then append to valid_numbers[]; 
-            for j in range(end - start):
-                #print("searching adjecent to:", match.group()[i], ", position:", start, i) 
-                #print(line[start+j])
+            for j in range(end - start):    # if search adjecent == Symbol, set number_valid = True break, then append to valid_numbers[]; 
                 is_valid = search_adjecent((start+j), i, input_list) 
                 if is_valid == True:
                     valid_numbers.append(int(numbers))
-                    print(numbers, "Is valid")
                     break
     return valid_numbers
 
 valid_numbers = get_numbers(input1)
-
-#3. sum(valid_numbers[])
-print(sum(valid_numbers))
-
+print(sum(valid_numbers)) #3. sum(valid_numbers[])
