@@ -5,7 +5,7 @@ input1 = open("C:/Users/theha/OneDrive/Documents/GitHub/advent_of_code/day_3/inp
 #Searches all adjecent positions, N, NE, NW, E, S, SE, SW, W for a given index and line in input_list, Returns is_valid boolean
 def search_adjecent(index:int, line_num:int, input_list:list):
     is_valid = False #Boolean flag 
-    line_length = len(input_list[0])
+    line_length = len(input_list[0]) 
     #Dicitonary to store directions
     direction = [
         (line_num-1,index), #North
@@ -20,8 +20,8 @@ def search_adjecent(index:int, line_num:int, input_list:list):
     for directions in direction:
         x = directions[0]
         y = directions[1]
-        if x and y >= 0 and x <line_length and y <line_length: #bounds of input list
-            char_match = re.search(r"[*,$#&%+]", input_list[x][y])
+        if x >= 0 and y >= 0 and x <line_length and y <line_length: #bounds of input list
+            char_match = re.search(r"[*,$#&%+=@]", input_list[x][y])
             if char_match != None:  #if adjecent character is a symbol set is_valid flag to True and break
                 is_valid = True
                 break
@@ -41,6 +41,7 @@ def get_numbers(input_list:list):
                 is_valid = search_adjecent((start+j), i, input_list) 
                 if is_valid == True:
                     valid_numbers.append(int(numbers))
+                    print("valid number:", numbers)
                     break
     return valid_numbers
 
