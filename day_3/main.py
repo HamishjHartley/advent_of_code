@@ -19,13 +19,15 @@ def search_adjecent(index:int, line_num:int, input_list:list):
         (line_num+1,index+1), #South East
         (line_num+1,index-1) #South West
     ]
-    for directions in direction:
+    for i,directions in enumerate(direction):
         x = directions[1]
         y = directions[0]
+
         #print(directions)
 
         if x >= 0 and y >= 0 and x <line_length and y <len(input_list): #bounds of input list
             char_match = re.search(r"[^.\d]", input_list[y][x]) #r"[*,$#&%+=@/-]"
+            print(i, "co-ordinates:", "[",x,",",y,"]", input_list[y][x])
             if char_match != None:  #if adjecent character is a symbol set is_valid flag to True and break
                 is_valid = True
                 #print(char_match.group())
@@ -38,21 +40,22 @@ def get_numbers(input_list:list):
     for i,line in enumerate(input_list):
         print("line", i)
         number = re.findall(r"\d+", line)
-        for numbers in number: 
-            #print("Number:", numbers)
+        for numbers in number: #2. For each number per line:
+            print("Number:", numbers)
             match =re.search(numbers, line)
             start = match.span()[0]
             end = match.span()[1]
-            #2. For each number per line: for each character in number search adjecent, 
+
+            #for each character in number, search adjecent
             for j in range(end - start):    # if search adjecent == Symbol, set number_valid = True break, then append to valid_numbers[]; 
                 is_valid = search_adjecent((start+j), i, input_list) 
                 if is_valid == True:
                     valid_numbers.append(int(numbers))
-                    #print("valid number:", numbers)
+                    print("valid number:", numbers)
                     break
     return valid_numbers
 
 valid_numbers = get_numbers(input1)
-print(valid_numbers) #3. sum(valid_numbers[])
 print(sum(valid_numbers))
-
+#print(valid_numbers) #3. sum(valid_numbers[])
+#print(len(valid_numbers))
