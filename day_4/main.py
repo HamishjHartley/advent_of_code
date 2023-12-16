@@ -8,8 +8,6 @@ input1 =input1.split('\n')
 #Until finished processing entire number of cards
 #Cards will never make a copy of a card past the end of the table
 
-card_totals = []
-
 #Returns winning and actual numbers per card
 def sep_cards(card_list:list):
     cards = []
@@ -33,6 +31,7 @@ def compare_match(winning:list, actual:list):
     return total
 
 def process_cards(cards:list):
+    card_totals = []
     #1.Process cards to get total of matches per card
 
     #2. Create 1 copy for next n_matches cards 
@@ -40,17 +39,21 @@ def process_cards(cards:list):
     #3. 
 
     for i in range(len(cards)):
-        print("Line number", i)
+        print("Card number", i)
         total = 0
         total += compare_match(cards[i][0], cards[i][1])
+        for k in range(card_totals.count(i)):
+            total += compare_match(cards[i][0], cards[i][1])
+            
         print("Next ",total, " Lines:")
         for j in range(total):
             card = re.findall(r"\d:", input1[i+j])
             card_num = int(card[0][0])
             card_totals.append(card_num)
             #compare_match(winning[card_num], actual[card_num])
-
         print(card_totals)
-    return None
+    return card_totals
 
-process_cards(cards)
+card_totals = process_cards(cards)
+
+print(card_totals.count(4))
