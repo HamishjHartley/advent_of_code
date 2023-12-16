@@ -3,57 +3,43 @@ import re
 input1 = open("C:/Users/theha/OneDrive/Documents/GitHub/advent_of_code/day_4/input.txt",'r').read()
 input1 =input1.split('\n')
 
-#Win copies of scratch cards below the winning card equal to n_matches
-#For each of these copies: win copies of scratch cards below the winning card equal to n_matches
-#Until finished processing entire number of cards
-#Cards will never make a copy of a card past the end of the table
+counter = []
 
-#Returns winning and actual numbers per card
-def sep_cards(card_list:list):
-    cards = []
-    for i,line in enumerate(card_list):
-        sep = line.split("|")
-        w = re.findall(r"(\d+)", sep[0])
-        del w[0] #To delete first entry in list(Not needed)
-        a = re.findall(r"(\d+)",sep[1])
-        cards.append((w,a))
-    return cards
-
-cards = sep_cards(input1)
-
-#Returns total matches between winning and actual of a given card(If any)
-def compare_match(winning:list, actual:list):
-    total= 0
+def compare_numbers(winning,actual):
+    total = 0
     for w_number in winning: 
         for a_number in actual:
             if w_number == a_number:
-                total +=1 
+                total +=1
     return total
 
-def process_cards(cards:list):
-    card_totals = []
-    #1.Process cards to get total of matches per card
+#Populates cards dictionary with n_matches per card
+def populate_cards(input_list:list):
+    cards = {}
 
-    #2. Create 1 copy for next n_matches cards 
+    for i,line in enumerate(input1):
+        sep = line.split("|")
+        actual = re.findall(r"(\d+)",sep[1])
+        winning = re.findall(r"(\d+)", sep[0])
+        del winning[0] #To delete first entry in list(Not needed)
 
-    #3. 
+        total = compare_numbers(winning,actual)
+        cards[i+1] =total 
+    return cards
 
-    for i in range(len(cards)):
-        print("Card number", i)
-        total = 0
-        total += compare_match(cards[i][0], cards[i][1])
-        for k in range(card_totals.count(i)):
-            total += compare_match(cards[i][0], cards[i][1])
-            
-        print("Next ",total, " Lines:")
-        for j in range(total):
-            card = re.findall(r"\d:", input1[i+j])
-            card_num = int(card[0][0])
-            card_totals.append(card_num)
-            #compare_match(winning[card_num], actual[card_num])
-        print(card_totals)
-    return card_totals
+cards= populate_cards(input1)
 
-card_totals = process_cards(cards)
+def process_card(card_number:int):
+    if card_number == len(cards):
+        return
+    else:
+        for j in range(cards[card_number]):
+            #print(cards[card_number+j+1]) 
+            process_card(card_number+j+1)
+            counter.append(1)
 
-print(card_totals.count(4))
+for i in range(len(cards)):
+    process_card(i+1)
+
+print(sum(counter)+207)
+
