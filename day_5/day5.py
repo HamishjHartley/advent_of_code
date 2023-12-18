@@ -31,7 +31,7 @@ humid_loc =populate_map("(?=(humidity-to-location))", "humid_loc")
 
 maps = [seed_soil, soil_fert, fert_water, water_light, light_temp, temp_humid, humid_loc]
 
-#3. Compute each seed through the seed-to-soil map
+#3. Compute each seed through each map
 def process_map(map:list, input_value:int):
     value = 0
     min_list = []
@@ -50,12 +50,18 @@ def process_map(map:list, input_value:int):
         value = input_value
     return value
 
-value_list = [13]
+loc_list = []
+#For each seed find location and append to loc_list
+for seed in seeds:
+    value_list =[int(seed)]
+    for i in range(len(maps)):
+        value_list.append(process_map(maps[i],value_list[i]))
+    loc_list.append(value_list[len(value_list)-1])
 
-for i in range(len(maps)):
-    value_list.append(process_map(maps[i],value_list[i]))
+print(loc_list)
+
     
-print(value_list)
+#print(value_list)
 
 #print(process_map(humid_loc,78))
 #4. Then for the following maps
