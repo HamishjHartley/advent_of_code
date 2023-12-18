@@ -29,21 +29,35 @@ light_temp =populate_map("(?=(light-to-temperature))", "light_temp")
 temp_humid =populate_map("(?=(temperature-to-humidity))", "temp_humid")
 humid_loc =populate_map("(?=(humidity-to-location))", "humid_loc")
 
+maps = [seed_soil, soil_fert, fert_water, water_light, light_temp, temp_humid, humid_loc]
+
 #3. Compute each seed through the seed-to-soil map
 def process_map(map:list, input_value:int):
     value = 0
+    min_list = []
+    max_list = []
     #for each line in map
     for i in range(len(map)): 
         srs = int(map[i][1])
         drs = int(map[i][0])
         r_length = int(map[i][2])
+        min_list.append(srs)
+        max_list.append(srs+r_length-1)
         if input_value > srs and input_value < (srs+r_length):
             value = input_value + (drs-srs)
-        elif input_value <(srs):
-            value = input_value
-    print(value)
+    #Checks if value is outwith mapped range
+    if input_value <(min(min_list)) or input_value > (max(max_list)):
+        value = input_value
+    #print(min_list, max_list)
     return value
 
-process_map(seed_soil, 13)
+value_list = [79]
+
+for i in range(len(maps)):
+    value_list.append(process_map(maps[i],value_list[i]))
+    
+print(value_list)
+
+#print(process_map(humid_loc,78))
 #4. Then for the following maps
 #5. Find the lowest location number 
