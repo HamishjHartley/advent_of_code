@@ -43,15 +43,14 @@ def process_map(map:list, input_value:int):
         r_length = int(map[i][2])
         min_list.append(srs)
         max_list.append(srs+r_length-1)
-        if input_value > srs and input_value < (srs+r_length):
+        if input_value >= srs and input_value < (srs+r_length):
             value = input_value + (drs-srs)
     #Checks if value is outwith mapped range
     if input_value <(min(min_list)) or input_value > (max(max_list)):
         value = input_value
-    #print(min_list, max_list)
     return value
 
-value_list = [79]
+value_list = [13]
 
 for i in range(len(maps)):
     value_list.append(process_map(maps[i],value_list[i]))
