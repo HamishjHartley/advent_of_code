@@ -42,27 +42,31 @@ def process_map(map:list, input_value:int):
         drs = int(map[i][0])
         r_length = int(map[i][2])
         min_list.append(srs)
-        max_list.append(srs+r_length-1)
+        max_list.append(srs+r_length)
         if input_value >= srs and input_value < (srs+r_length):
             value = input_value + (drs-srs)
+            #print(input_value, "in range:",srs, "-",srs+r_length )
     #Checks if value is outwith mapped range
-    if input_value <(min(min_list)) or input_value > (max(max_list)):
+    if input_value <(min(min_list)) or input_value >= (max(max_list)):
         value = input_value
+        #print(input_value, "not in map range", min(min_list), "-", max(max_list))
     return value
 
 loc_list = []
 #For each seed find location and append to loc_list
 for seed in seeds:
+    #print("\n")
+    #print("Seed number:", seed)
     value_list =[int(seed)]
     for i in range(len(maps)):
+        #print("Processing:",value_list[i], " with:", i) 
         value_list.append(process_map(maps[i],value_list[i]))
-    loc_list.append(value_list[len(value_list)-1])
+    loc_list.append(value_list[-1])
+    #print("Processed:", seed, "final value:", value_list[len(value_list)-1])
 
-print(loc_list)
+print(min(loc_list))
+#print(loc_list)
 
-    
-#print(value_list)
-
-#print(process_map(humid_loc,78))
 #4. Then for the following maps
 #5. Find the lowest location number 
+#1,3,7,17
