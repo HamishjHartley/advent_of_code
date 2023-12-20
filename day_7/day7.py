@@ -21,7 +21,6 @@ ranks = {"A":14,
               "2":2
               }
 
-
 #Create data structures 
 for line in input1:
     sep = line.split(" ")
@@ -51,20 +50,18 @@ def classify_hand(hand_count:list):
         return 0 #High card
     return None
 
-#If two hands have the same rank, compares each card starting with the first to establish a stronger hand
-def compare_hands(hands:list):
-    h1, h2 = hands[0][0],hands[1][0]
-    print("Comparing: ", h1, " + ", h2)
-    for i in range(5):
-    #First card
-        if ranks[h1[i]] == ranks[h2[i]]:
-            continue #Skip to next iteration
-        if ranks[h1[i]] > ranks[h2[i]]:
-            return h1
-        else:
-            return h2
-    return None
+#TODO: Allow comparison between more than 2 cards
+#If mutliple hands have the same rank, compares each card starting with the first to establish a stronger hand
+def compare_hands(hands:list): 
+    rank_list = []
 
+    #Sort hands in order of rank for each element, starting with First
+    for i in range(len(hands)):
+        for j in range(5):
+            rank_list.append(ranks[hands[i][0][j]]) 
+    ordered_ranks = sorted(rank_list,reverse=True)
+    print(ordered_ranks)
+    return None
 
 def rank_hands():
     sum_winnings = 0
@@ -79,19 +76,15 @@ def rank_hands():
     ordered_n = sorted(totals,reverse=True)
     ordered_types = sorted(types, reverse=True)
     n_strongest = ordered_n.count(ordered_n[0])
-    print(ordered_types)
     if n_strongest ==1:
         mulitplier = 5
         for hand in ordered_types:
             sum_winnings +=hand[1][1] *mulitplier
-
+    if n_strongest >1:
+        hand_compare = []
+        for i in range(n_strongest): hand_compare.append(ordered_types[i][1][0])
+        strongest = compare_hands(hand_compare)
     return sum_winnings
-
-
-win = compare_hands((hands[3],hands[2]))
-
-print(win)
-
 
 
     #If two hands have same type: Secondary ordering, 
