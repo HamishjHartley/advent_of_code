@@ -87,5 +87,6 @@ def rank_hands():
     return sum_winnings
 
 
+rank_hands()
     #If two hands have same type: Secondary ordering, 
     #first card in each hand is compared, stronger card wins
