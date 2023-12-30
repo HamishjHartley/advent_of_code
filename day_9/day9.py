@@ -22,18 +22,14 @@ def is_zero(input:list):
 #Recursive function which processes each sequence of a line until is_zero ==True
 def process_seq(seq:list):
     if is_zero(seq) ==True:
-
-        #Extrapolate() function called
-
+        #Extrapolate
+        
         return seq
     else:
         diff = get_diff(seq)
         print(diff)
         process_seq(diff)
-        
-
-def extrapolate(seq:list):
-    seq 
+    
 
 for i,line in enumerate(input1):
     print("Line:",i)
