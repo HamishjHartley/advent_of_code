@@ -2,6 +2,8 @@ import re
 #inputting in text file of strings
 input1 = open("C:/Users/theha/OneDrive/Documents/GitHub/advent_of_code/day_9/input.txt",'r').read().split('\n')
 
+counter = 0 #To sum extrapolated last values
+
 #Get difference between each number and append this to a new list
 def get_diff(input:list):
     diff_list = []
@@ -30,8 +32,6 @@ def extrapolate(history:list):
     #Does the lists in wrong order(Top down)
     for i in reversed(range(len(history))):
         curr = i
-        print(curr)
-
         if is_zero(history[curr]) == True:
             history[curr].append(0) # Add 0 to first seq in history
             continue 
@@ -39,8 +39,6 @@ def extrapolate(history:list):
         left = history[curr][-1] #last value in list
 
         below = history[curr+1][-1] #Last value of below list  
-
-        print("Left",left,"Below",below)
         history[curr].append(left+below)
     return history
 
@@ -52,4 +50,6 @@ for i,line in enumerate(input1):
     history.insert(0,numbers)
     ex = extrapolate(history)
 
-    print(ex)
+    counter += ex[0][-1]
+
+print(counter)
