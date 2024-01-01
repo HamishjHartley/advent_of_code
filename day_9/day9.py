@@ -43,15 +43,32 @@ def extrapolate(history:list):
     print("Extrapolated: ", history)
     return history
 
+def extrapolate_back(history:list):
+    #similar to extrapolate but append to start of list rather than end, 
+
+    #1. Minus the first value of the below list from the the first value on current list
+
+    #2. Insert this value to start of list
+    for i in reversed(range(len(history))):
+        curr = i
+        if is_zero(history[curr]) == True:
+            history[curr].insert(0,0) # Add 0 to first seq in history
+            continue 
+
+        right = history[curr][0] #First value in list
+        below = history[curr+1][0] #First value of below list  S
+        history[curr].insert(0,(right-below))
+    print("Extrapolated back", history)
+    return history
+
 for i,line in enumerate(input1):
     print("Line:",i)
     numbers = list(map(int,re.findall("[-]?\d+", line))) #Gets list of numbers, casts from str to int
 
     history = process_seq(numbers,[])
     history.insert(0,numbers)
-    ex = extrapolate(history)
+    ex = extrapolate_back(history)
 
-    print(ex[0][-1])
-    counter += ex[0][-1]
+    counter += ex[0][0]
 
 print(counter)
