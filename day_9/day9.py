@@ -40,16 +40,18 @@ def extrapolate(history:list):
 
         below = history[curr+1][-1] #Last value of below list  
         history[curr].append(left+below)
+    print("Extrapolated: ", history)
     return history
 
 for i,line in enumerate(input1):
     print("Line:",i)
-    numbers = list(map(int,re.findall("\d+", line))) #Gets list of numbers, casts from str to int
+    numbers = list(map(int,re.findall("[-]?\d+", line))) #Gets list of numbers, casts from str to int
 
     history = process_seq(numbers,[])
     history.insert(0,numbers)
     ex = extrapolate(history)
 
+    print(ex[0][-1])
     counter += ex[0][-1]
 
 print(counter)
