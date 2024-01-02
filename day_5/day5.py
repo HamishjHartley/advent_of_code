@@ -29,42 +29,50 @@ light_temp =populate_map("(?=(light-to-temperature))", "light_temp")
 temp_humid =populate_map("(?=(temperature-to-humidity))", "temp_humid")
 humid_loc =populate_map("(?=(humidity-to-location))", "humid_loc")
 
+#3. Compute each seed through each map
 maps = [seed_soil, soil_fert, fert_water, water_light, light_temp, temp_humid, humid_loc]
 
-#3. Compute each seed through each map
-def process_map(map:list, input_value:int):
-    value = 0
-    min_list = []
-    max_list = []
-    #for each line in map
-    for i in range(len(map)): 
-        srs = int(map[i][1])
-        drs = int(map[i][0])
-        r_length = int(map[i][2])
-        min_list.append(srs)
-        max_list.append(srs+r_length)
-        if input_value >= srs and input_value < (srs+r_length):
-            value = input_value + (drs-srs)
-            #print(input_value, "in range:",srs, "-",srs+r_length )
-    #Checks if value is outwith mapped range
-    if input_value <(min(min_list)) or input_value >= (max(max_list)):
-        value = input_value
-        #print(input_value, "not in map range", min(min_list), "-", max(max_list))
-    return value
+#3. Computes a given seed through each map
+def process_seed(seed:int):
+    outwidth_flag = False
+    for s_map in maps:
+        #for each line in map
+        for i in range(len(s_map)): 
+            print(i)
+            drs = int(s_map[i][0])
+            srs = int(s_map[i][1])
+            r_length = int(s_map[i][2])
+        #Check if seed value outwith these range
+            if seed >= srs and seed < srs+r_length:
+                seed = seed + (drs-srs)
+                print("Changed by", drs-srs)
+                outwidth_flag = False
+                break
+            else:
+                outwidth_flag = True
+        if outwidth_flag ==True:
+            print("Not in range")
+            seed = seed #No change
+            outwidth_flag = False
+        print(seed)
+    return seed 
 
-loc_list = []
-#For each seed find location and append to loc_list
-for seed in seeds:
-    #print("\n")
-    #print("Seed number:", seed)
-    value_list =[int(seed)]
-    for i in range(len(maps)):
-        #print("Processing:",value_list[i], " with:", i) 
-        value_list.append(process_map(maps[i],value_list[i]))
-    loc_list.append(value_list[-1])
-    #print("Processed:", seed, "final value:", value_list[len(value_list)-1])
+process_seed(79)
 
-print(min(loc_list))
+
+# loc_list = []
+# #For each seed find location and append to loc_list
+# for seed in seeds:
+#     #print("\n")
+#     #print("Seed number:", seed)
+#     value_list =[int(seed)]
+#     for i in range(len(maps)):
+#         #print("Processing:",value_list[i], " with:", i) 
+#         value_list.append(process_map(maps[i],value_list[i]))
+#     loc_list.append(value_list[-1])
+#     #print("Processed:", seed, "final value:", value_list[len(value_list)-1])
+
+#print(min(loc_list))
 #print(loc_list)
 
 #4. Then for the following maps
