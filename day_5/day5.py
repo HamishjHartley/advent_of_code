@@ -2,8 +2,17 @@ import re
 #inputting in text file of strings
 input1 = open("C:/Users/theha/OneDrive/Documents/GitHub/advent_of_code/day_5/input.txt",'r').read().split('\n')
 
-#1. Create a seed_list
-seeds = re.findall(r"\d+", input1[0])
+#1. Create a seed_list, converts from string to int
+seeds = list(map(int,re.findall(r"\d+", input1[0]))) 
+
+new_seeds = []
+for i in range(0,len(seeds),2):
+    start = seeds[i]
+    length = seeds[i+1]
+    for j in range(length):
+        new_seeds.append(start+j)
+        print(start+j)
+
 
 #2. Create lists to store the maps
 def populate_map(target:str, list_name:str):
@@ -36,45 +45,21 @@ maps = [seed_soil, soil_fert, fert_water, water_light, light_temp, temp_humid, h
 def process_seed(seed:int):
     outwidth_flag = False
     for s_map in maps:
-        #for each line in map
-        for i in range(len(s_map)): 
-            print(i)
+        for i in range(len(s_map)): #for each line in map
             drs = int(s_map[i][0])
             srs = int(s_map[i][1])
             r_length = int(s_map[i][2])
-        #Check if seed value outwith these range
-            if seed >= srs and seed < srs+r_length:
+            if seed >= srs and seed < srs+r_length: #Check if seed value outwith these range
                 seed = seed + (drs-srs)
-                print("Changed by", drs-srs)
                 outwidth_flag = False
                 break
-            else:
-                outwidth_flag = True
-        if outwidth_flag ==True:
-            print("Not in range")
-            seed = seed #No change
-            outwidth_flag = False
-        print(seed)
+            else: outwidth_flag = True
+        if outwidth_flag ==True: outwidth_flag = False #No change
     return seed 
 
-process_seed(79)
-
-
-# loc_list = []
-# #For each seed find location and append to loc_list
-# for seed in seeds:
-#     #print("\n")
-#     #print("Seed number:", seed)
-#     value_list =[int(seed)]
-#     for i in range(len(maps)):
-#         #print("Processing:",value_list[i], " with:", i) 
-#         value_list.append(process_map(maps[i],value_list[i]))
-#     loc_list.append(value_list[-1])
-#     #print("Processed:", seed, "final value:", value_list[len(value_list)-1])
-
-#print(min(loc_list))
-#print(loc_list)
-
-#4. Then for the following maps
-#5. Find the lowest location number 
-#1,3,7,17
+#4. For each seed: process seed and append value to list
+# seed_values = []
+# for seed in new_seeds:
+#     seed_values.append(process_seed(seed))
+# #5. Find minimum from seed result list
+# print(min(seed_values))
