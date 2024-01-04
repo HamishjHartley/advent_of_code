@@ -35,15 +35,19 @@ def sort_hands(hands:list):
             full_house.append(hand)
         if l==2 and m==4:
             four_kind.append(hand)
-        if l==5:
+        if l==1:
             five_kind.append(hand)
 
-#Recursive secondary sorting of each type of hand based on card rank
-def sort_type(hand_type:list,element:int):
-    print(sorted(hand_type))
-    return sorted(hand_type)
-
 sort_hands(hands)
-sort_type(two_pair,0)
+rank_list = [sorted(five_kind,reverse=True), sorted(four_kind,reverse=True), sorted(full_house), sorted(three_kind), sorted(two_pair), sorted(one_pair), sorted(high_card)]
 
-#print(tuple(sorted(res.values())))
+#Flatten list: https://stackoverflow.com/questions/952914/how-do-i-make-a-flat-list-out-of-a-list-of-lists
+flat_list = [
+    x
+    for xs in rank_list
+    for x in xs
+]
+
+print(flat_list)
+
+
