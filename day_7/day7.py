@@ -38,7 +38,18 @@ def sort_hands(hands:list):
         if l==1:
             five_kind.append(hand)
 
+#Sort hands Based on strength of each card left to right
+def sort_type(hand_type:list):
+    alphabet = "AKQJT98765432"
+    
+    s = sorted(hand_type, key=lambda hand: [alphabet.index(c) for c in hand[0]])
+    print(s)
+    return s
+
+
 sort_hands(hands)
+sort_type(four_kind)
+
 rank_list = [sorted(five_kind,reverse=True), sorted(four_kind,reverse=True), sorted(full_house), sorted(three_kind), sorted(two_pair), sorted(one_pair), sorted(high_card)]
 
 #Flatten list: https://stackoverflow.com/questions/952914/how-do-i-make-a-flat-list-out-of-a-list-of-lists
@@ -48,6 +59,5 @@ flat_list = [
     for x in xs
 ]
 
-print(flat_list)
 
 
