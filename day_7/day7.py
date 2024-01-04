@@ -42,7 +42,7 @@ def sort_hands(hands:list):
 
 #Sort hands Based on strength of each card left to right
 def sort_type(hand_type:list):
-    alphabet = "AKQJT98765432"
+    alphabet = "AKQT98765432J"
     s = sorted(hand_type, key=lambda hand: [alphabet.index(c) for c in hand[0]])
     return s
 
