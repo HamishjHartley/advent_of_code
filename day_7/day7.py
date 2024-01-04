@@ -22,7 +22,9 @@ def sort_hands(hands:list):
     for hand in hands:
         res =Counter(hand[0])
         l = len(res)
-        m = res[max(res)]
+        common = res.most_common()[0][0]
+        m = res[common]
+        print(hand, l, m)
         if l ==5:
             high_card.append(hand)
         if l==4:
@@ -41,16 +43,12 @@ def sort_hands(hands:list):
 #Sort hands Based on strength of each card left to right
 def sort_type(hand_type:list):
     alphabet = "AKQJT98765432"
-    
     s = sorted(hand_type, key=lambda hand: [alphabet.index(c) for c in hand[0]])
-    print(s)
     return s
 
-
 sort_hands(hands)
-sort_type(four_kind)
 
-rank_list = [sorted(five_kind,reverse=True), sorted(four_kind,reverse=True), sorted(full_house), sorted(three_kind), sorted(two_pair), sorted(one_pair), sorted(high_card)]
+rank_list = [sort_type(five_kind), sort_type(four_kind), sort_type(full_house), sort_type(three_kind), sort_type(two_pair), sort_type(one_pair), sort_type(high_card)]
 
 #Flatten list: https://stackoverflow.com/questions/952914/how-do-i-make-a-flat-list-out-of-a-list-of-lists
 flat_list = [
@@ -59,5 +57,9 @@ flat_list = [
     for x in xs
 ]
 
+winnings = 0
+for i in range(len(flat_list)):
+    rank = len(flat_list) -i
+    winnings+=int(flat_list[i][1]) * rank
 
-
+print(winnings)
