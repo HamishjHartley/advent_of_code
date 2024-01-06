@@ -17,10 +17,18 @@ for i in range(3):
         crate_lst[j].append(crate)
 print(crate_lst)
 
-instructions_list = []
-#2. Decode instruction set
-for move in instructions:
-    instructions_list.append(re.findall("\d",move))
-print(instructions_list)
 
+#2. Decode instruction set
 #3. Apply instructions to crate lists
+for move in instructions:
+    m = re.findall("\d",move)
+    m = list(map(int,m)) 
+    m = [x-1 for x in m]
+    print(m)
+    amount = m[0]
+    origin = m[1]
+    destination = m[2]
+    for i in range(amount):
+        crate_lst[destination].append(crate_lst[origin].pop())
+
+print(crate_lst)
