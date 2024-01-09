@@ -23,6 +23,7 @@ print(crate_lst)
 #2. Decode instruction set
 #3. Apply instructions to crate lists
 for i,move in enumerate(instructions):
+    multi_stack =[]
     print(instructions[i])
     m = re.findall("\d+",move)
     m = list(map(int,m)) 
@@ -31,7 +32,15 @@ for i,move in enumerate(instructions):
     destination = m[2]-1
     print(amount,origin,destination)
     for i in range(amount):
-        crate_lst[destination].append(crate_lst[origin].pop())
-        print(crate_lst[origin],">>",crate_lst[destination])
-#         #print(crate_lst[origin],crate_lst[destination])
+        multi_stack.append(crate_lst[origin].pop())
+    multi_stack.reverse()
+    for c in multi_stack: crate_lst[destination].append(c)
+    print(multi_stack,">>",crate_lst[destination])
+
     print(crate_lst)
+
+answer = ""
+for stack in crate_lst:
+    answer += stack.pop()
+
+print(answer)
