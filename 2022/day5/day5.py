@@ -16,31 +16,22 @@ for i in range(len(crate_lst)):
         if crate != "   " and crate != "    ":
             crate_lst[j].append(crate)
 
-for i in range(len(crate_lst)):
-    crate_lst[i].reverse()
-print(crate_lst)
+for i in range(len(crate_lst)): crate_lst[i].reverse()
 
 #2. Decode instruction set
 #3. Apply instructions to crate lists
 for i,move in enumerate(instructions):
     multi_stack =[]
-    print(instructions[i])
     m = re.findall("\d+",move)
     m = list(map(int,m)) 
     amount = m[0]
     origin = m[1]-1
     destination = m[2]-1
-    print(amount,origin,destination)
     for i in range(amount):
         multi_stack.append(crate_lst[origin].pop())
     multi_stack.reverse()
     for c in multi_stack: crate_lst[destination].append(c)
-    print(multi_stack,">>",crate_lst[destination])
-
-    print(crate_lst)
-
+    
 answer = ""
-for stack in crate_lst:
-    answer += stack.pop()
-
+for stack in crate_lst: answer += stack.pop()
 print(answer)
